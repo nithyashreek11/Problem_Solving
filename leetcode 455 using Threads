@@ -1,0 +1,38 @@
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        if(s==null || s.length==0) {
+            return 0;
+        }
+        Thread t1=new Thread(()->{
+            Arrays.sort(g);
+        });
+        Thread t2=new Thread(()->{
+            Arrays.sort(s);
+        });
+        t1.start();
+        t2.start();
+        try {
+            t1.join();
+            t2.join();
+        } catch(Exception e) {}
+        
+        int i=g.length-1,j=s.length-1,cnt=0;
+        while(i>=0 && j>=0) {
+            if(s[j]>=g[i]) {
+                cnt++; i--; j--;
+            } else {
+                i--;
+            }
+        }
+        return cnt;
+    }
+}
+
+Runtime
+6ms
+Beats
+99.96%
+Memory
+50.97MB
+Beats
+97.35%
