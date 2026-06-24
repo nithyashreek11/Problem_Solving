@@ -1,0 +1,48 @@
+class Solution {
+    public int minDays(int[] bloomDay, int m, int k) {
+        if((long)m*k > bloomDay.length) {
+            return -1;
+        }
+        int l=0,r=0;
+        for (int day : bloomDay) {
+            r = Math.max(r, day);
+        }
+        while(l<r) {
+            int mid=l+(r-l)/2;
+            if(ispossible(bloomDay,m,k,mid)) {
+                r=mid;
+            } else {
+                l=mid+1;
+            }
+        }
+        return l;
+    }
+    private boolean ispossible(int[] nums,int m,int k,int day) {
+        int tot_bq=0;
+        for(int i=0;i<nums.length;i++) {
+            int cnt=0;
+            while(cnt<k  && i<nums.length && nums[i]<=day) {
+                cnt++;
+                i++;
+            }
+            if(cnt==k) {
+                i--;
+                tot_bq++;
+            }
+            if(tot_bq>=m) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+
+Runtime
+14ms
+Beats
+98.27%
+Memory
+82.42MB
+Beats
+80.79%
